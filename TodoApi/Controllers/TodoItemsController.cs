@@ -34,7 +34,7 @@ namespace TodoApi.Controllers
         #region snippet_GetByID
         // GET: api/TodoItems/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoItem>> GetTodoItem(long id)
+        public async Task<ActionResult<TodoItemDTO>> GetTodoItem(long id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 
@@ -68,6 +68,8 @@ namespace TodoApi.Controllers
             }
 
             todoItem.Name = todoItemDTO.Name;
+            todoItem.Assignee = todoItemDTO.Assignee;
+            todoItem.Due = todoItemDTO.Due;
             todoItem.IsComplete = todoItemDTO.IsComplete;
 
             try
@@ -91,7 +93,9 @@ namespace TodoApi.Controllers
             var todoItem = new TodoItem
             {
                 IsComplete = todoItemDTO.IsComplete,
-                Name = todoItemDTO.Name 
+                Name = todoItemDTO.Name,
+                Due = todoItemDTO.Due,
+                Assignee = todoItemDTO.Assignee
             };
 
             _context.TodoItems.Add(todoItem);
@@ -131,13 +135,10 @@ namespace TodoApi.Controllers
             {
                 Id = todoItem.Id,
                 Name = todoItem.Name,
+                Assignee = todoItem.Assignee,
+                Due = todoItem.Due,
                 IsComplete = todoItem.IsComplete
             };
         #endregion
-
-        private bool TodoItemExists(long id)
-        {
-            return _context.TodoItems.Any(e => e.Id == id);
-        }
     }
 }
