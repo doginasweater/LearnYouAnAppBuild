@@ -30,6 +30,8 @@ namespace TodoApi
             services.AddDbContext<TodoContext>(opt =>
                opt.UseInMemoryDatabase("TodoList"));
             services.AddControllers();
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +47,8 @@ namespace TodoApi
             app.UseStaticFiles();
             
             app.UseHttpsRedirection();
+
+            app.UseCors(opt => opt.AllowAnyOrigin());
 
             app.UseRouting();
 
